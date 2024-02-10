@@ -1,0 +1,1 @@
+#let ternary(cond, t, f) = if cond { t } else { f }

@@ -1,0 +1,9 @@
+[package]
+name = "ohm"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Nils Weber"]
+license = "MIT"
+description = "This package provides templates that follow the corporate identity guide of Ohm"
+repository = "https://github.com/vimkat/typst-ohm"
+compiler = "0.10.0"
