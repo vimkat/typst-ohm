@@ -5,7 +5,7 @@
 #import "lib/elements.typ": pipe
 
 // Components
-#import "components/logo.typ": logo
+#import "components/logo.typ": logo, logo-omega
 
 // Templates
 #import "templates/document.typ": document
