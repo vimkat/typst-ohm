@@ -11,4 +11,5 @@
 #import "templates/document.typ": document
 #import "templates/event-sign.typ": event-sign
 #import "templates/thesis.typ": thesis
+#import "templates/presentation.typ"
 
