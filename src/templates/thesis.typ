@@ -1,6 +1,6 @@
-#import "/src/lib/vars.typ"
-#import "/src/lib/utils.typ"
-#import "/src/components/logo.typ": logo
+#import "../../src/lib/vars.typ"
+#import "../../src/lib/utils.typ"
+#import "../../src/components/logo.typ": logo
 
 #let script-size = 7.97224pt
 #let footnote-size = 8.50012pt

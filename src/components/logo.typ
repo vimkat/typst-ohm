@@ -1,4 +1,4 @@
-#import "/src/lib/vars.typ"
+#import "../../src/lib/vars.typ"
 
 #let logo(
   body,
@@ -25,7 +25,7 @@
     set text(font: vars.font, weight: 300, fill: fill, size: _logo-height)
     set align(bottom)
     
-    let content = image.decode(read("/src/assets/ohm-logo.svg").replace("#000000", fill.to-hex()), height: 1em)
+    let content = image.decode(read("../../src/assets/ohm-logo.svg").replace("#000000", fill.to-hex()), height: 1em)
     let text-size  = 0.25em
     let logo-text =  {
       set text(size: text-size)
