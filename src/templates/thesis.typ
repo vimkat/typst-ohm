@@ -37,6 +37,12 @@
   // works.
   bibliography-file: none,
 
+  // Parameter to enable or disable showing table of tables
+  show_tables: false,
+
+  // Parameter to enable or disable showing table of images
+  show_images: false,
+
   // The document's content.
   body,
 ) = {
@@ -241,6 +247,50 @@
     })
   }
 
+  // Table of contents - headings
+  pagebreak()
+  heading(
+    numbering: none,
+    outlined: false,
+    "Inhaltsverzeichnis")
+  outline(
+    title: none,
+    depth: 3,
+    target: heading.where(outlined: true),
+    indent: true
+  )
+
+  // Table of contents - kind: image
+  if show_images {
+    pagebreak()
+    heading(
+      numbering: none,
+      "Abbildungsverzeichnis")
+    outline(
+      title: none,
+      target: figure.where(
+        kind: image,
+        outlined: true),
+      indent: true
+    )
+  }
+
+  // Table of contents - kind: table
+  if show_tables {
+    pagebreak()
+    heading(
+      numbering: none,
+      "Tabellenverzeichnis")
+    outline(
+      title: none,
+      target: figure.where(
+        kind: table,
+        outlined: true),
+      indent: true
+    )
+  }
+
+  pagebreak()
   // Display the article's contents.
   body
 
