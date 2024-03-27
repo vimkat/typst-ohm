@@ -240,7 +240,7 @@
   show par: set block(spacing: 2em)
 
   // Set page number to "I"
-  set page(numbering: "I")
+  set page(numbering: "I", number-align: right)
   counter(page).update(1)
 
   // Display the abstract
@@ -257,6 +257,7 @@
   // Table of chapters - headings
   if show_chapters {
     pagebreak()
+    set page(footer: none)
     heading(
       numbering: none,
       outlined: false,
@@ -272,6 +273,7 @@
   // Table of contents - kind: image
   if show_images {
     pagebreak()
+    set page(footer: none)
     heading(
       numbering: none,
       "Abbildungsverzeichnis")
@@ -287,6 +289,7 @@
   // Table of contents - kind: table
   if show_tables {
     pagebreak()
+    set page(footer: none)
     heading(
       numbering: none,
       "Tabellenverzeichnis")
