@@ -37,6 +37,9 @@
   // works.
   bibliography-file: none,
 
+  // Parameter to enable or disable showing table of chapters
+  show_chapters: false,
+
   // Parameter to enable or disable showing table of tables
   show_tables: false,
 
@@ -236,6 +239,10 @@
   set par(first-line-indent: 0em, justify: true, leading: 1em)
   show par: set block(spacing: 2em)
 
+  // Set page number to "I"
+  set page(numbering: "I")
+  counter(page).update(1)
+
   // Display the abstract
   if abstract != none {
     page(
@@ -247,18 +254,20 @@
     })
   }
 
-  // Table of contents - headings
-  pagebreak()
-  heading(
-    numbering: none,
-    outlined: false,
-    "Inhaltsverzeichnis")
-  outline(
-    title: none,
-    depth: 3,
-    target: heading.where(outlined: true),
-    indent: true
-  )
+  // Table of chapters - headings
+  if show_chapters {
+    pagebreak()
+    heading(
+      numbering: none,
+      outlined: false,
+      "Inhaltsverzeichnis")
+    outline(
+      title: none,
+      depth: 3,
+      target: heading.where(outlined: true),
+      indent: true
+    )
+  }
 
   // Table of contents - kind: image
   if show_images {
@@ -291,6 +300,10 @@
   }
 
   pagebreak()
+  // Set page number to "1"
+  set page(numbering: "1")
+  counter(page).update(1)
+
   // Display the article's contents.
   body
 
