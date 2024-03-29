@@ -312,9 +312,11 @@
 
   // Display the bibliography, if any is given.
   // if bibliography-file != none {
+  //   pagebreak()
   //   show bibliography: set text(8.5pt)
   //   show bibliography: pad.with(x: 0.5pt)
-  //   // bibliography(bibliography-file)
+  //   bibliography(bibliography-file)
+  //   show bibliography: set par(justify: false)
   // }
 
   // The thing ends with details about the authors.
