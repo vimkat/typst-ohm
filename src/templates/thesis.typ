@@ -1,6 +1,6 @@
-#import "/src/lib/vars.typ"
-#import "/src/lib/utils.typ"
-#import "/src/components/logo.typ": logo
+#import "../../src/lib/vars.typ"
+#import "../../src/lib/utils.typ"
+#import "../../src/components/logo.typ": logo
 
 #let script-size = 7.97224pt
 #let footnote-size = 8.50012pt
@@ -36,6 +36,15 @@
   // The path to a bibliography file if you want to cite some external
   // works.
   bibliography-file: none,
+
+  // Parameter to enable or disable showing table of chapters
+  show_chapters: false,
+
+  // Parameter to enable or disable showing table of tables
+  show_tables: false,
+
+  // Parameter to enable or disable showing table of images
+  show_images: false,
 
   // The document's content.
   body,
@@ -230,6 +239,10 @@
   set par(first-line-indent: 0em, justify: true, leading: 1em)
   show par: set block(spacing: 2em)
 
+  // Set page number to "I"
+  set page(numbering: "I", number-align: right)
+  counter(page).update(1)
+
   // Display the abstract
   if abstract != none {
     page(
@@ -241,14 +254,69 @@
     })
   }
 
+  // Table of chapters - headings
+  if show_chapters {
+    pagebreak()
+    set page(footer: none)
+    heading(
+      numbering: none,
+      outlined: false,
+      "Inhaltsverzeichnis")
+    outline(
+      title: none,
+      depth: 3,
+      target: heading.where(outlined: true),
+      indent: true
+    )
+  }
+
+  // Table of contents - kind: image
+  if show_images {
+    pagebreak()
+    set page(footer: none)
+    heading(
+      numbering: none,
+      "Abbildungsverzeichnis")
+    outline(
+      title: none,
+      target: figure.where(
+        kind: image,
+        outlined: true),
+      indent: true
+    )
+  }
+
+  // Table of contents - kind: table
+  if show_tables {
+    pagebreak()
+    set page(footer: none)
+    heading(
+      numbering: none,
+      "Tabellenverzeichnis")
+    outline(
+      title: none,
+      target: figure.where(
+        kind: table,
+        outlined: true),
+      indent: true
+    )
+  }
+
+  pagebreak()
+  // Set page number to "1"
+  set page(numbering: "1")
+  counter(page).update(1)
+
   // Display the article's contents.
   body
 
   // Display the bibliography, if any is given.
   // if bibliography-file != none {
+  //   pagebreak()
   //   show bibliography: set text(8.5pt)
   //   show bibliography: pad.with(x: 0.5pt)
-  //   // bibliography(bibliography-file)
+  //   bibliography(bibliography-file)
+  //   show bibliography: set par(justify: false)
   // }
 
   // The thing ends with details about the authors.

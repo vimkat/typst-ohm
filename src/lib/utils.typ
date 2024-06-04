@@ -1,4 +1,4 @@
-#import "/src/lib/vars.typ"
+#import "../../src/lib/vars.typ"
 
 #let ternary(cond, t, f) = if cond { t } else { f }
 

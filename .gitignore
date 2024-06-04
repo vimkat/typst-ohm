@@ -1,0 +1,2 @@
+# ignore PDF files to prevent accidental commit
+*.pdf
