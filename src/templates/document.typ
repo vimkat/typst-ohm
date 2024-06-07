@@ -1,5 +1,5 @@
-#import "/src/lib/vars.typ"
-#import "/src/components/logo.typ": logo
+#import "../lib/vars.typ"
+#import "../components/logo.typ": logo
 
 #let document(doc, blue-as-black: false, lang: "de") = {
 	set text(fill: vars.blue) if blue-as-black

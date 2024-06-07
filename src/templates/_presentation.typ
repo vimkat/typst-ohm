@@ -1,8 +1,8 @@
 #import "@preview/polylux:0.3.1" as plx
-#import "/src/lib/vars.typ"
-#import "/src/lib/utils.typ"
-#import "/src/components/logo.typ": logo, logo-omega
-#import "/src/templates/document.typ": document as ohm-document
+#import "../lib/vars.typ"
+#import "../lib/utils.typ"
+#import "../components/logo.typ": logo, logo-omega
+#import "../templates/document.typ": document as ohm-document
 
 #let margin = 32pt
 #let ohm-logo-content = state("ohm-logo-content", none)

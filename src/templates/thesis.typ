@@ -49,8 +49,6 @@
   // The document's content.
   body,
 ) = {
-  // Formats the author's names in a list with commas and a
-  // final "and".
   let margin = (x: 3cm, y: 3cm)
 
   // Set document metadata.
@@ -70,36 +68,30 @@
     // authors, except on the first page. The page number is on
     // the left for even pages and on the right for odd pages.
     //header-ascent: 14pt,
-    header: locate(loc => {
-      let i = counter(page).at(loc).first()
-      if i == 1 { return }
-      
-      set text(size: script-size)
-      // grid(
-      //   columns: (6em, 1fr, 6em),
-      //   if calc.even(i) [#i],
-      //   align(center, upper(
-      //     if calc.odd(i) { title } else { author.name }
-      //   )),
-      //   if calc.odd(i) { align(right)[#i] }
-      // )
+    // header: locate(loc => {
+    //   let i = counter(page).at(loc).first()
+    //   // if i == 1 { return }
+    //   
+    //   set text(size: script-size)
+    //   // grid(
+    //   //   columns: (6em, 1fr, 6em),
+    //   //   if calc.even(i) [#i],
+    //   //   align(center, upper(
+    //   //     if calc.odd(i) { title } else { author.name }
+    //   //   )),
+    //   //   if calc.odd(i) { align(right)[#i] }
+    //   // )
 
-      smallcaps(title)
-    }),
-
-    // On the first page, the footer should contain the page number.
-    // footer-descent: 12pt,
-    footer: locate(loc => {
-      let i = counter(page).at(loc).first()
-      if i == 1 { return }
-      set text(size: script-size)
-      grid(
-        columns: (1fr, 1fr),
-        author.name,
-        align(right, [#i]),
-      )
-    }),
-
+    //   smallcaps(title)
+    // }),
+	
+		footer: context {
+			set align(if calc.odd(here().page()) { right } else { left })
+			if here().page-numbering() != none {
+				counter(page).display(here().page-numbering())
+			}
+		},
+	
     background: if version != none {
       let _version = text(size: 0.75em)[
         Version: #utils.ternary(
@@ -121,30 +113,32 @@
   )
 
   // Configure headings.
-  set heading(numbering: "1.")
+  set heading(numbering: "1.1")
   show heading: it => {
-    // Create the heading numbering.
-    let number = if it.numbering != none {
-      counter(heading).display(it.numbering)
-      h(0.5em, weak: true)
-    }
+		// Create the heading numbering.
+		let number = if it.numbering != none {
+			counter(heading).display(it.numbering)
+			h(0.5em, weak: true)
+		}
 
-    // Level 1 headings are centered and smallcaps.
-    // The other ones are run-in.
-    set text(size: large-size, weight: 400)
-    if it.level == 1 {
-      counter(figure.where(kind: "theorem")).update(0)
-    }
-
-    strong[
-      #v(3em, weak: true)
-      #number
-      #it.body
-      #v(2em, weak: true)
-    ]
+		if it.level == 1 and it.numbering != none {
+			set text(size: 1.5em)
+			pagebreak(to: "odd", weak: true)
+			
+			v(3em)
+			stack(
+				spacing: 1em,
+				[Kapitel #number],
+				it.body,
+			)
+			v(2em)
+		} else {
+			if it.level == 1 { pagebreak(to: "odd", weak: true) }
+			block(above: 3em, below: 2em)[#number #it.body]
+		}
   }
 
-  // Configure lists and links.
+  //   Configure lists and links.
   set list(indent: 1em, body-indent: 0.5em)
   set enum(indent: 1em, body-indent: 0.5em)
   show link: set text(font: "New Computer Modern Mono")
@@ -152,9 +146,6 @@
   // Configure equations.
   show math.equation: set block(below: 8pt, above: 9pt)
   show math.equation: set text(weight: 400)
-
-  // Configure citation and bibliography styles.
-  set bibliography(style: "springer-mathphys", title: [References])
 
   show figure: it => {
     show: pad.with(x: 23pt)
@@ -181,25 +172,15 @@
     v(15pt, weak: true)
   }
 
-  // Theorems.
-  show figure.where(kind: "theorem"): it => block(above: 11.5pt, below: 11.5pt, {
-    strong({
-      it.supplement
-      if it.numbering != none {
-        [ ]
-        counter(heading).display()
-        it.counter.display(it.numbering)
-      }
-      [.]
-    })
-    emph(it.body)
-  })
+//////////////
+
+	set page(numbering: "i")
 
   // Display the title and authors.
   page(
     // margin: (x: margin.x, y: margin.y), // prevent binding margins
-    header: none,
-    footer: none,
+    header: block(),
+    footer: block(),
   )[
     #set align(center)
     #logo(height: 2.5cm, safety-zone: false, none)
@@ -239,85 +220,71 @@
   set par(first-line-indent: 0em, justify: true, leading: 1em)
   show par: set block(spacing: 2em)
 
-  // Set page number to "I"
-  set page(numbering: "I", number-align: right)
-  counter(page).update(1)
-
+	//// Pre-content: abstract, TOC etc.
+	set page(numbering: "i")
+	
   // Display the abstract
   if abstract != none {
-    page(
-      header: none,
-      footer: none,
-      {
-      heading(level: 1, outlined: false, numbering: none)[Abstract]
-      abstract
-    })
+		set page(header: block(), footer: block())
+		heading(depth: 1, outlined: false, numbering: none, bookmarked: true)[Kurzdarstellung]
+		abstract
   }
 
   // Table of chapters - headings
   if show_chapters {
-    pagebreak()
-    set page(footer: none)
-    heading(
-      numbering: none,
-      outlined: false,
-      "Inhaltsverzeichnis")
+		heading(numbering: none, outlined: false, bookmarked: true)[Inhaltsverzeichnis]
+
+		show outline.entry.where(level: 1): it => {
+			v(2em, weak: true)
+			strong(it)
+		}
+
     outline(
       title: none,
       depth: 3,
       target: heading.where(outlined: true),
-      indent: true
+      indent: false,
     )
   }
 
-  // Table of contents - kind: image
-  if show_images {
-    pagebreak()
-    set page(footer: none)
-    heading(
-      numbering: none,
-      "Abbildungsverzeichnis")
-    outline(
-      title: none,
-      target: figure.where(
-        kind: image,
-        outlined: true),
-      indent: true
-    )
-  }
-
-  // Table of contents - kind: table
-  if show_tables {
-    pagebreak()
-    set page(footer: none)
-    heading(
-      numbering: none,
-      "Tabellenverzeichnis")
-    outline(
-      title: none,
-      target: figure.where(
-        kind: table,
-        outlined: true),
-      indent: true
-    )
-  }
-
-  pagebreak()
-  // Set page number to "1"
-  set page(numbering: "1")
+	set page(numbering: "1")
+	pagebreak(to: "odd", weak: true)
   counter(page).update(1)
 
   // Display the article's contents.
   body
 
+
+  // Table of contents - kind: image
+  if show_images {
+		heading(numbering: none)[Abbildungsverzeichnis]
+    outline(
+      title: none,
+      target: figure.where(kind: image, outlined: true),
+    )
+  }
+
+  // Table of contents - kind: table
+  if show_tables {
+		heading(numbering: none)[Tabellenverzeichnis]
+    outline(
+      title: none,
+      target: figure.where(kind: table, outlined: true),
+    )
+  }
+
+	// TODO: Listings and bibliography
+
   // Display the bibliography, if any is given.
-  // if bibliography-file != none {
-  //   pagebreak()
-  //   show bibliography: set text(8.5pt)
-  //   show bibliography: pad.with(x: 0.5pt)
-  //   bibliography(bibliography-file)
-  //   show bibliography: set par(justify: false)
-  // }
+  if bibliography-file != none {
+    show bibliography: set text(0.85em)
+    show bibliography: pad.with(x: 0.5pt)
+		show bibliography: set block(spacing: 2em)
+    // show bibliography: set par(justify: false)
+	
+		heading(depth: 1, numbering: none)[Literaturverzeichnis]
+    bibliography(bibliography-file, title: none)
+  }
 
   // The thing ends with details about the authors.
   // show: pad.with(x: 11.5pt)

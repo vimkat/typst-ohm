@@ -1,3 +1,3 @@
-#import "/src/lib/vars.typ"
+#import "vars.typ"
 
 #let pipe = text(fill: vars.red, "|")

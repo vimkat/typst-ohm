@@ -84,7 +84,7 @@
 }
 
 #let logo-omega(outline: false, fill: vars.red, ..args) = {
-	let src = read("/src/assets/ohm-omega.svg").replace("stroke:none", "stroke:" + fill.to-hex())
+	let src = read("../assets/ohm-omega.svg").replace("stroke:none", "stroke:" + fill.to-hex())
 	if outline {
 		image.decode(src, ..args)
 	} else {

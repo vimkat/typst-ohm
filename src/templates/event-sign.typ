@@ -1,6 +1,6 @@
-#import "/src/lib/vars.typ"
-#import "/src/lib/utils.typ"
-#import "/src/lib/elements.typ" as elems
+#import "../lib/vars.typ"
+#import "../lib/utils.typ"
+#import "../lib/elements.typ" as elems
 
 #let _arrow-v = polygon(
   fill: vars.red,
