@@ -113,6 +113,7 @@
   )
 
   // Configure headings.
+	show heading.where(level: 1): set heading(supplement: "Kapitel")
   set heading(numbering: "1.1")
   show heading: it => {
 		// Create the heading numbering.
@@ -128,7 +129,7 @@
 			v(3em)
 			stack(
 				spacing: 1em,
-				[Kapitel #number],
+				[#it.supplement #number],
 				it.body,
 			)
 			v(2em)
@@ -243,7 +244,7 @@
       title: none,
       depth: 3,
       target: heading.where(outlined: true),
-      indent: false,
+      indent: auto,
     )
   }
 
