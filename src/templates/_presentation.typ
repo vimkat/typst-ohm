@@ -1,4 +1,4 @@
-#import "@preview/polylux:0.3.1" as plx
+#import "@preview/polylux:0.4.0" as plx
 #import "../lib/vars.typ"
 #import "../lib/utils.typ"
 #import "../components/logo.typ": logo, logo-omega

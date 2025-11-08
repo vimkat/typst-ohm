@@ -46,6 +46,12 @@
   // Parameter to enable or disable showing table of images
   show_images: false,
 
+  // Parameter to enable or disable showing table of listings
+  show_listings: false,
+
+  // Parameter to enable or disable showing bibliography
+  show_bibliography: false,
+
   // The document's content.
   body,
 ) = {
@@ -214,12 +220,14 @@
     #v(1cm)
     #set align(left)
     #set par(justify: true)
-    Dieses Werk einschließlich seiner Teile ist urheberrechtlich geschützt. Jede Verwertung außerhalb der engen Grenzen des Urheberrechtgesetzes ist ohne Zustimmung des Autors unzulässig und strafbar. Das gilt insbesondere für Vervielfältigungen, Übersetzungen, Mikroverfilmungen sowie die Einspeicherung und Verarbeitung in elektronischen Systemen.
+
+    Dieses Werk einschließlich seiner Teile ist urheberrechtlich geschützt.
+    Jede Verwertung außerhalb der engen Grenzen des Urheberrechtgesetzes ist ohne Zustimmung der verfassenden Person unzulässig und strafbar.
+    Das gilt insbesondere für Vervielfältigungen, Übersetzungen, Mikroverfilmungen sowie die Einspeicherung und Verarbeitung in elektronischen Systemen.
   ]
   
   // Configure paragraph properties.
-  set par(first-line-indent: 0em, justify: true, leading: 1em)
-  show par: set block(spacing: 2em)
+  set par(first-line-indent: 0em, justify: true, leading: 1em, spacing: 2em)
 
 	//// Pre-content: abstract, TOC etc.
 	set page(numbering: "i")
@@ -274,10 +282,17 @@
     )
   }
 
-	// TODO: Listings and bibliography
+  // Table of contents - kind: code
+  if show_listings {
+    heading(numbering: none)[Listingverzeichnis]
+    outline(
+      title: none,
+      target: figure.where(kind: raw, outlined: true),
+    )
+  }
 
   // Display the bibliography, if any is given.
-  if bibliography-file != none {
+  if show_bibliography and bibliography-file != none {
     show bibliography: set text(0.85em)
     show bibliography: pad.with(x: 0.5pt)
 		show bibliography: set block(spacing: 2em)

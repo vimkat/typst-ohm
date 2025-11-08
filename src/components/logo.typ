@@ -11,7 +11,7 @@
   layout(container-size => {
     // Height is a ratio, use wrapping container
     let _height = height
-    if type(height) == "ratio" { _height = container-size.height * height }
+    if type(height) == ratio { _height = container-size.height * height }
 
     // Calculate safety zone
     let _logo-height = _height
@@ -25,7 +25,7 @@
     set text(font: vars.font, weight: 300, fill: fill, size: _logo-height)
     set align(bottom)
     
-    let content = image.decode(read("../../src/assets/ohm-logo.svg").replace("#000000", fill.to-hex()), height: 1em)
+    let content = image(bytes(read("../../src/assets/ohm-logo.svg").replace("#000000", fill.to-hex())), height: 1em)
     let text-size  = 0.25em
     let logo-text =  {
       set text(size: text-size)
@@ -86,8 +86,8 @@
 #let logo-omega(outline: false, fill: vars.red, ..args) = {
 	let src = read("../assets/ohm-omega.svg").replace("stroke:none", "stroke:" + fill.to-hex())
 	if outline {
-		image.decode(src, ..args)
+		image(bytes(src), ..args)
 	} else {
-		image.decode(src.replace("fill:none", "fill:" + fill.to-hex()), ..args)
+		image(bytes(src.replace("fill:none", "fill:" + fill.to-hex())), ..args)
 	}
 }
