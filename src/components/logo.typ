@@ -5,7 +5,7 @@
   height: 1cm,
   text-only: false,
   department-below: false,
-  safety-zone: true,
+  safety-zone: false,
   fill: vars.red,
 ) = {
   layout(container-size => {
